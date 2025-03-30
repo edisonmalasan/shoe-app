@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const links = [
   {
-    name: "Dashbaord",
+    name: "Dashboard",
     href: "/dashboard",
   },
   {
@@ -23,7 +23,7 @@ export default function DashboardNavigation() {
   return (
     <>
       {links.map((link) => (
-        <Link key={link.href} href={link.href}>
+        <Link key={link.href} href={link.href} className="text-lg">
           {link.name}
         </Link>
       ))}
