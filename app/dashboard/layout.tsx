@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import DashboardNavigation from "../components/dashboard/DashboardNavigation";
+import { Sheet } from "@/components/ui/sheet";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
@@ -8,6 +9,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <nav className="hidden font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
           <DashboardNavigation />
         </nav>
+        <Sheet></Sheet>
       </header>
     </div>
   );
