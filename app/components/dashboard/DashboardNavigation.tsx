@@ -23,7 +23,7 @@ export default function DashboardNavigation() {
   return (
     <>
       {links.map((link) => (
-        <Link key={link.href} href={link.href} className="text-lg">
+        <Link key={link.href} href={link.href} className="md:text-lg">
           {link.name}
         </Link>
       ))}
