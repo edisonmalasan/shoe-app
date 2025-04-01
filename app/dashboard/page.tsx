@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign } from "lucide-react";
+import { DollarSign, ShoppingBag } from "lucide-react";
 import React from "react";
 
 export default function Dashboard() {
@@ -16,6 +16,16 @@ export default function Dashboard() {
             <p className="text-xs text-muted-foreground">
               Based on 100 Charges
             </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle>Total Sales</CardTitle>
+            <ShoppingBag className="h-4 w-4 text-blue-500" />
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">+50</p>
+            <p className="text-xs text-muted-foreground">Total Sales</p>
           </CardContent>
         </Card>
       </div>
