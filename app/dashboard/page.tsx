@@ -84,15 +84,51 @@ export default function Dashboard() {
           <CardContent className="flex flex-col gap-8">
             <div className="flex items-center gap-4">
               <Avatar className="hidden sm:flex h-9 w-9">
-                <AvatarFallback>JM</AvatarFallback>
+                <AvatarFallback>EM</AvatarFallback>
               </Avatar>
               <div className="grid gap-1">
-                <p className="text-sm font-medium">John Doe</p>
+                <p className="text-sm font-medium">Edison Malasan</p>
                 <p className="text-sm text-muted-foreground">
                   TestEmail@gmail.com
                 </p>
               </div>
-              <p>+₱200</p>
+              <p className="ml-auto font-medium">+₱1,099.00</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <Avatar className="hidden sm:flex h-9 w-9">
+                <AvatarFallback>EM</AvatarFallback>
+              </Avatar>
+              <div className="grid gap-1">
+                <p className="text-sm font-medium">Edison Malasan</p>
+                <p className="text-sm text-muted-foreground">
+                  TestEmail@gmail.com
+                </p>
+              </div>
+              <p className="ml-auto font-medium">+₱1,099.00</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <Avatar className="hidden sm:flex h-9 w-9">
+                <AvatarFallback>EM</AvatarFallback>
+              </Avatar>
+              <div className="grid gap-1">
+                <p className="text-sm font-medium">Edison Malasan</p>
+                <p className="text-sm text-muted-foreground">
+                  TestEmail@gmail.com
+                </p>
+              </div>
+              <p className="ml-auto font-medium">+₱1,099.00</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <Avatar className="hidden sm:flex h-9 w-9">
+                <AvatarFallback>EM</AvatarFallback>
+              </Avatar>
+              <div className="grid gap-1">
+                <p className="text-sm font-medium">Edison Malasan</p>
+                <p className="text-sm text-muted-foreground">
+                  TestEmail@gmail.com
+                </p>
+              </div>
+              <p className="ml-auto font-medium">+₱1,099.00</p>
             </div>
           </CardContent>
         </Card>
