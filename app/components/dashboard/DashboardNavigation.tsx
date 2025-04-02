@@ -34,8 +34,9 @@ export default function DashboardNavigation() {
           key={link.href}
           href={link.href}
           className={cn(
+            "text-base font-bold transition-colors hover:text-foreground",
             link.href === pathName
-              ? "text-black"
+              ? "text-foreground"
               : "text-muted-foreground hover:text-foreground"
           )}
         >
