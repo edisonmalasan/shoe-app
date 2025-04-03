@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -30,7 +31,9 @@ export default function CreateProductRoute() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-3"></div>
+            <div className="flex flex-col gap-3">
+              <Label></Label>
+            </div>
           </div>
         </CardContent>
       </Card>
