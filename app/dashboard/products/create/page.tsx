@@ -6,7 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -32,7 +34,31 @@ export default function CreateProductRoute() {
         <CardContent>
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-3">
-              <Label></Label>
+              <Label>Name</Label>
+              <Input
+                type="text"
+                className="w-full"
+                placeholder="Product Name"
+              />
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <Label>Description</Label>
+              <Textarea placeholder="Write the description here" />
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <Label>Price</Label>
+              <div className="relative flex items-center gap-3">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                  ₱
+                </span>
+                <Input
+                  type="number"
+                  placeholder="0.00"
+                  className="w-full pl-7"
+                />
+              </div>
             </div>
           </div>
         </CardContent>
