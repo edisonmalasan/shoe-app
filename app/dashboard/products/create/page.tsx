@@ -1,4 +1,10 @@
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -13,6 +19,15 @@ export default function CreateProductRoute() {
         </Button>
         <h1 className="font-semibold text-xl">New Product</h1>
       </div>
+
+      <Card className="mt-5">
+        <CardHeader>
+          <CardTitle>Product Details</CardTitle>
+          <CardDescription>
+            You can create your product using this form
+          </CardDescription>
+        </CardHeader>
+      </Card>
     </form>
   );
 }
