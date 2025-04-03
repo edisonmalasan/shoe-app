@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -27,6 +28,11 @@ export default function CreateProductRoute() {
             You can create your product using this form
           </CardDescription>
         </CardHeader>
+        <CardContent>
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-3"></div>
+          </div>
+        </CardContent>
       </Card>
     </form>
   );
