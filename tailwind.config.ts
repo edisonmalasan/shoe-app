@@ -13,4 +13,4 @@ const config: Config = {
   plugins: [],
 };
 
-export default withUt(config);
+export default config;
