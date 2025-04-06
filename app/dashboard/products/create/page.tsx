@@ -11,7 +11,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { UploadDropzone } from "@/app/lib/uploadthing";
 export default function CreateProductRoute() {
   return (
     <form>
