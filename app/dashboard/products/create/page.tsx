@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import { UploadDropzone } from "@/app/lib/uploadthing";
 
 export default function CreateProductRoute() {
   return (
@@ -86,6 +87,11 @@ export default function CreateProductRoute() {
                   <SelectItem value="archived">Archived</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <Label>Images</Label>
+              <UploadDropzone endpoint={"imageUploader"} />
             </div>
           </div>
         </CardContent>
