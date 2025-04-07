@@ -72,6 +72,15 @@ export default function CreateProductRoute() {
             <Label>Product Image</Label>
             <CldUploadWidget
               uploadPreset="product_uploads"
+              options={{
+                multiple: true,
+                maxFiles: 10,
+                clientAllowedFormats: ["jpg", "png", "jpeg"],
+                maxImageFileSize: 2000000, // 10MB
+                // FOR SIGNED UPLOADS
+                //apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+                //cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+              }}
               onSuccess={(result: any) => {
                 setImageUrl(result.info.secure_url);
               }}
