@@ -67,16 +67,21 @@ export default function CreateProductRoute() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-3">
+
+          <div className="flex flex-col gap-3 mt-5">
             <Label>Product Image</Label>
             <CldUploadWidget
-              uploadPreset="your_upload_preset" // Create this in Cloudinary
+              uploadPreset="product_uploads"
               onSuccess={(result: any) => {
                 setImageUrl(result.info.secure_url);
               }}
             >
               {({ open }) => (
-                <Button type="button" variant="outline" onClick={() => open()}>
+                <Button
+                  type="button"
+                  variant={"outline"}
+                  onClick={() => open()}
+                >
                   Upload Image
                 </Button>
               )}
@@ -87,12 +92,11 @@ export default function CreateProductRoute() {
                 src={imageUrl}
                 width="200"
                 height="200"
-                alt="Preview"
+                alt="Product Image"
                 className="mt-2 rounded-md border"
               />
             )}
           </div>
-
           <Button type="submit" className="mt-4">
             Create Product
           </Button>
