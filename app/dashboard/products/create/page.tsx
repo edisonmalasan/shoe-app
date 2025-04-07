@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,7 +13,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import { CldUploadWidget, CldImage } from "next-cloudinary";
+import { useState } from "react";
+
 export default function CreateProductRoute() {
+  const [imageUrl, setImageUrl] = useState("");
+
   return (
     <form>
       <div className="flex items-center gap-4">
@@ -60,6 +67,35 @@ export default function CreateProductRoute() {
               </div>
             </div>
           </div>
+          <div className="flex flex-col gap-3">
+            <Label>Product Image</Label>
+            <CldUploadWidget
+              uploadPreset="your_upload_preset" // Create this in Cloudinary
+              onSuccess={(result: any) => {
+                setImageUrl(result.info.secure_url);
+              }}
+            >
+              {({ open }) => (
+                <Button type="button" variant="outline" onClick={() => open()}>
+                  Upload Image
+                </Button>
+              )}
+            </CldUploadWidget>
+
+            {imageUrl && (
+              <CldImage
+                src={imageUrl}
+                width="200"
+                height="200"
+                alt="Preview"
+                className="mt-2 rounded-md border"
+              />
+            )}
+          </div>
+
+          <Button type="submit" className="mt-4">
+            Create Product
+          </Button>
         </CardContent>
       </Card>
     </form>
