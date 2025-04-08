@@ -85,7 +85,7 @@ export default function CreateProductRoute() {
                   croppingAspectRatio: 1,
                   folder: "products", // Specify the folder name
                   resourceType: "image", // Specify the resource type
-                  // showAdvancedOptions: true, // Example of a valid property
+                  // showAdvancedOptions: true,
                   // FOR SIGNED UPLOADS
                   // apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
                   // cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -139,15 +139,9 @@ export default function CreateProductRoute() {
               />
             </div>
           </div>
-          <Button type="submit" className="mt-4">
-            Create Product
-          </Button>
+          <Button type="submit">Create Product</Button>
         </CardContent>
       </Card>
     </form>
   );
 }
-
-// FOR SIGNED UPLOADS
-//apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-//cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
