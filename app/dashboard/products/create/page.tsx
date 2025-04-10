@@ -14,17 +14,78 @@ import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft, X } from "lucide-react";
 import Link from "next/link";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function CreateProductRoute() {
   const [imageUrl, setImageUrl] = useState<string[]>([]);
+  const [Files, setFiles] = useState<File[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const uploadButtonRef = useRef<HTMLButtonElement>(null);
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const newFiles = Array.from(event.target.files);
+      setFiles((prev) => [...prev, ...newFiles]);
+
+      setPreviewUrls((prev) => [
+        ...prev,
+        ...newFiles.map((file) => URL.createObjectURL(file)),
+      ]);
+    }
+  };
+
+  //  upload files only on form submission
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setIsUploading(true);
+
+    const uploadedUrls: string[] = [];
+
+    for (const file of Files) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("uploaded_preset", "product_uploads");
+      formData.append("folder", "products");
+
+      try {
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const data = await response.json();
+        uploadedUrls.push(data.secure_url);
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    }
+    const formData = new FormData(event.target as HTMLFormElement);
+    await fetch("/api/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.get("name"),
+        description: formData.get("description"),
+        price: formData.get("price"),
+        images: uploadedUrls,
+      }),
+    });
+
+    setIsUploading(false);
+    setFiles([]);
+    setPreviewUrls([]);
+  };
+
+  // remove image from the list
   const handleRemoveImage = (indexToRemove: number) => {
     setImageUrl((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="flex items-center gap-4">
         <Button variant={"outline"} size={"icon"} asChild>
           <Link href={"/dashboard/products"}>
@@ -80,7 +141,7 @@ export default function CreateProductRoute() {
                   maxFiles: 10,
                   sources: ["local", "url"],
                   clientAllowedFormats: ["jpg", "png", "jpeg"],
-                  maxImageFileSize: 2000000, // 2MB
+                  maxImageFileSize: 5000000, // 2MB
                   cropping: true,
                   croppingAspectRatio: 1,
                   folder: "products", // Specify the folder name
@@ -135,11 +196,13 @@ export default function CreateProductRoute() {
               <input
                 type="hidden"
                 name="images"
-                value={JSON.stringify(imageUrl)} // Convert the array to a JSON string for form submission
+                value={JSON.stringify(imageUrl)} // convert the array to a JSON string for form submission
               />
             </div>
           </div>
-          <Button type="submit">Create Product</Button>
+          <Button type="submit" className="mt-3">
+            Create Product
+          </Button>
         </CardContent>
       </Card>
     </form>
