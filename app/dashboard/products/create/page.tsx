@@ -196,7 +196,7 @@ export default function CreateProductRoute() {
               <input
                 type="hidden"
                 name="images"
-                value={JSON.stringify(imageUrl)} // convert the array to a JSON string for form submission
+                value={JSON.stringify(imageUrl)} // convert the array to a JSON string USING stringify for form submission
               />
             </div>
           </div>
