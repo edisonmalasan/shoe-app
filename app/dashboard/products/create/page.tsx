@@ -144,8 +144,8 @@ export default function CreateProductRoute() {
                   maxImageFileSize: 5000000, // 2MB
                   cropping: true,
                   croppingAspectRatio: 1,
-                  folder: "products", // Specify the folder name
-                  resourceType: "image", // Specify the resource type
+                  folder: "products", // specify the path name in cloudinary
+                  resourceType: "image", // resource type
                   // showAdvancedOptions: true,
                   // FOR SIGNED UPLOADS
                   // apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
