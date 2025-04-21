@@ -56,7 +56,7 @@ export default function CreateProductRoute() {
 
       try {
         const response = await fetch(
-          "https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload",
+          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
           {
             method: "POST",
             body: formData,
