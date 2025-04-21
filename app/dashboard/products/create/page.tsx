@@ -35,7 +35,7 @@ export default function CreateProductRoute() {
     }
   };
 
-  //  upload files only on form submission
+  //  upload files in cloudinary only on form submission
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsUploading(true);
