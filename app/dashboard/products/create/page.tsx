@@ -18,10 +18,10 @@ import { useState, useRef } from "react";
 
 export default function CreateProductRoute() {
   const [imageUrl, setImageUrl] = useState<string[]>([]);
-  const [Files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-  const uploadButtonRef = useRef<HTMLButtonElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -35,6 +35,11 @@ export default function CreateProductRoute() {
     }
   };
 
+  // remove image from the list
+  const handleRemoveImage = (indexToRemove: number) => {
+    setImageUrl((prev) => prev.filter((_, index) => index !== indexToRemove));
+  };
+
   //  upload files in cloudinary only on form submission
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -42,10 +47,11 @@ export default function CreateProductRoute() {
 
     const uploadedUrls: string[] = [];
 
-    for (const file of Files) {
+    // upload each file to Cloudinary
+    for (const file of files) {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("uploaded_preset", "product_uploads");
+      formData.append("upload_preset", "product_uploads");
       formData.append("folder", "products");
 
       try {
@@ -62,6 +68,8 @@ export default function CreateProductRoute() {
         console.error("Error uploading file:", error);
       }
     }
+
+    // submit product data with uploaded image
     const formData = new FormData(event.target as HTMLFormElement);
     await fetch("/api/products", {
       method: "POST",
@@ -74,14 +82,11 @@ export default function CreateProductRoute() {
       }),
     });
 
+    // reset the form and state after submission
+    previewUrls.forEach((url) => URL.revokeObjectURL(url));
     setIsUploading(false);
     setFiles([]);
     setPreviewUrls([]);
-  };
-
-  // remove image from the list
-  const handleRemoveImage = (indexToRemove: number) => {
-    setImageUrl((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
 
   return (
@@ -110,12 +115,16 @@ export default function CreateProductRoute() {
                 type="text"
                 className="w-full"
                 placeholder="Product Name"
+                name="name"
               />
             </div>
 
             <div className="flex flex-col gap-3">
               <Label>Description</Label>
-              <Textarea placeholder="Write the description here" />
+              <Textarea
+                placeholder="Write the description here"
+                name="description"
+              />
             </div>
 
             <div className="flex flex-col gap-3">
@@ -128,80 +137,58 @@ export default function CreateProductRoute() {
                   type="number"
                   placeholder="0.00"
                   className="w-full pl-7"
+                  name="price"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-3 mt-5">
-              <Label>Product Image</Label>
-              <CldUploadWidget
-                uploadPreset="product_uploads"
-                options={{
-                  multiple: true,
-                  maxFiles: 10,
-                  sources: ["local", "url"],
-                  clientAllowedFormats: ["jpg", "png", "jpeg"],
-                  maxImageFileSize: 5000000, // 2MB
-                  cropping: true,
-                  croppingAspectRatio: 1,
-                  folder: "products", // specify the path name in cloudinary
-                  resourceType: "image", // resource type
-                  // showAdvancedOptions: true,
-                  // FOR SIGNED UPLOADS
-                  // apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-                  // cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-                }}
-                onSuccess={(result: any) => {
-                  if (result.info?.secure_url) {
-                    setImageUrl((prev) => [...prev, result.info.secure_url]);
-                  }
-                }}
-              >
-                {({ open }) => (
-                  <Button
-                    type="button"
-                    variant={"outline"}
-                    onClick={() => open()}
-                  >
-                    Upload Image
-                  </Button>
-                )}
-              </CldUploadWidget>
+              <Label>Product Images</Label>
 
+              {/* Hidden file input */}
+              <input
+                type="file"
+                multiple
+                onChange={handleFileChange}
+                accept="image/*"
+                className="hidden"
+                ref={fileInputRef}
+              />
+
+              {/* upload button */}
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                Select Images
+              </Button>
+
+              {/* prev images */}
               <div className="flex flex-wrap gap-4 mt-3">
-                {imageUrl.map((url, index) => (
-                  <div className="relative group" key={index}>
-                    <div className="relative w-24 h-24">
-                      <CldImage
-                        src={url}
-                        width={100}
-                        height={100}
-                        alt={"Product image ${index + 1}"}
-                        className="rounded-md border object-cover w-full h-full"
-                      />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        className="absolute -top-2 -right-2 w-6 h-6 rounded-full p-0"
-                        onClick={() => handleRemoveImage(index)}
-                      >
-                        <X className="w-3 h-3" />
-                      </Button>
-                    </div>
+                {previewUrls.map((url, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={url}
+                      alt={`Preview ${index}`}
+                      className="rounded-md border object-cover w-24 h-24"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute -top-2 -right-2 w-6 h-6 rounded-full p-0"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
                   </div>
                 ))}
               </div>
-
-              <input
-                type="hidden"
-                name="images"
-                value={JSON.stringify(imageUrl)} // convert the array to a JSON string USING stringify for form submission
-              />
             </div>
           </div>
-          <Button type="submit" className="mt-3">
-            Create Product
+          <Button type="submit" className="mt-6 w-full" disabled={isUploading}>
+            {isUploading ? "Uploading..." : "Create Product"}
           </Button>
         </CardContent>
       </Card>
